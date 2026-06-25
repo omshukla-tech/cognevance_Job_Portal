@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobPortal - Post a Job</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Internal CSS matching dashboard theme -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --bg-color: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --card-border: #e2e8f0;
+            --card-radius: 16px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            padding-top: 70px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top Navbar */
+        .dashboard-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--card-border);
+            height: 70px;
+            z-index: 1050;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--text-dark) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .logo-box {
+            background: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .navbar-search {
+            background-color: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar-search input {
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            font-weight: 500;
+            width: 100%;
+            color: var(--text-dark);
+        }
+
+        .navbar-search input:focus {
+            outline: none;
+        }
+
+        .navbar-search i {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted) !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar-nav .nav-link:hover, 
+        .navbar-nav .nav-link.active {
+            color: var(--primary) !important;
+            background-color: var(--primary-light);
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--card-border);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            left: 0;
+            width: 250px;
+            background-color: #ffffff;
+            border-right: 1px solid var(--card-border);
+            padding: 1.75rem 1.25rem;
+            z-index: 1000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-link i {
+            font-size: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-link:hover {
+            background-color: var(--primary);
+            color: #ffffff !important;
+        }
+
+        .sidebar-link:hover i {
+            color: #ffffff !important;
+        }
+
+        .sidebar-link.active {
+            background-color: var(--primary);
+            color: #ffffff !important;
+        }
+
+        .sidebar-link.active i {
+            color: #ffffff !important;
+        }
+
+        /* Main Area Layout */
+        .main-layout {
+            margin-left: 250px;
+            padding: 2rem 2.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        /* Section Heading */
+        .section-heading {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        /* Premium Form Styling */
+        .form-card {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: var(--card-radius);
+            padding: 2.25rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+
+        .form-label-custom {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-control-custom {
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            background-color: var(--bg-color);
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        .form-select-custom {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px 12px;
+        }
+
+        .btn-primary-custom {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 0.85rem 2rem;
+            border-radius: 12px;
+            border: none;
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -6px rgba(37, 99, 235, 0.5);
+            background-color: var(--primary-hover);
+        }
+
+        .btn-cancel {
+            background-color: #ffffff;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding: 0.85rem 2rem;
+            border-radius: 12px;
+            border: 1.5px solid var(--card-border);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            border-color: var(--text-muted);
+        }
+
+        /* Pure CSS Sidebar Toggle (Checkbox Hack) */
+        #mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Mobile Adaptations */
+        @media (max-width: 991.98px) {
+            body {
+                padding-top: 130px;
+            }
+
+            .dashboard-navbar {
+                height: auto;
+                padding: 0.75rem 1rem;
+            }
+
+            .navbar-search {
+                max-width: 100%;
+                order: 3;
+                margin-top: 0.75rem;
+            }
+
+            .sidebar {
+                transform: translateX(-250px);
+                box-shadow: 0 0 30px rgba(0,0,0,0.1);
+                top: 130px;
+            }
+
+            #mobile-menu-toggle:checked ~ .sidebar {
+                transform: translateX(0);
+            }
+
+            .main-layout {
+                margin-left: 0;
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pure CSS Toggle Input -->
+    <input type="checkbox" id="mobile-menu-toggle">
+
+    <!-- Top Fixed Navbar -->
+    <nav class="navbar navbar-expand-lg dashboard-navbar fixed-top flex-wrap align-items-center justify-content-between">
+        <!-- Logo Left -->
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <div class="logo-box">
+                <i class="bi bi-briefcase-fill"></i>
+            </div>
+            <span>JobPortal</span>
+        </a>
+
+        <!-- Center Search Bar -->
+        <div class="navbar-search mx-lg-auto">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search jobs, companies...">
+        </div>
+
+        <!-- Mobile Toggle Button -->
+        <label for="mobile-menu-toggle" class="navbar-toggler border-0 p-0 d-lg-none" role="button">
+            <i class="bi bi-list fs-2 text-dark"></i>
+        </label>
+
+        <!-- Right Side Nav Elements -->
+        <div class="collapse navbar-collapse flex-grow-0 d-none d-lg-block" id="navbarRight">
+            <ul class="navbar-nav align-items-center gap-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.dashboard') }}">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Applications</a>
+                </li>
+                <li class="nav-item mx-1">
+                    <a href="#" class="nav-icon-link">
+                        <i class="bi bi-bell"></i>
+                    </a>
+                </li>
+                <li class="nav-item d-flex align-items-center gap-2">
+                    <span class="fw-semibold text-muted" style="font-size: 0.85rem;">Hello, {{ user.full_name }}</span>
+                    <img src="{% if user.profile_picture %}{% if user.profile_picture.startswith('http') %}{{ user.profile_picture }}{% else %}/api/uploads/{{ user.profile_picture }}{% endif %}{% else %}https://api.dicebear.com/7.x/initials/svg?seed={{ user.full_name }}{% endif %}" alt="User Profile" class="profile-avatar">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar Layout Container -->
+    <div class="container-fluid px-0">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="{{ url_for('auth.dashboard') }}" class="sidebar-link">
+                        <i class="bi bi-house-door"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {% if user.role == 'recruiter' %}
+                <li>
+                    <a href="{{ url_for('auth.post_job') }}" class="sidebar-link active">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>Post a Job</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{{ url_for('auth.dashboard') }}?tab=apps-tab" class="sidebar-link">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Applications</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('auth.dashboard') }}?tab=profile-tab" class="sidebar-link">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('auth.logout') }}" class="sidebar-link text-danger">
+                        <i class="bi bi-box-arrow-right text-danger"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Layout -->
+        <main class="main-layout">
+            <div class="row justify-content-center">
+                <div class="col-xl-9 col-12">
+                    
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <a href="{{ url_for('auth.dashboard') }}" class="btn btn-outline-secondary btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Back to Dashboard">
+                            <i class="bi bi-arrow-left"></i>
+                        </a>
+                        <h4 class="section-heading mb-0">Post a New Job Opening</h4>
+                    </div>
+
+                    <div class="form-card">
+                        <form action="/post-job" method="POST">
+                            
+                            <div class="row g-4">
+                                <!-- Job Title -->
+                                <div class="col-md-6 col-12">
+                                    <label for="title" class="form-label form-label-custom">Job Title</label>
+                                    <input type="text" name="title" id="title" class="form-control form-control-custom" placeholder="e.g. Frontend Developer" required>
+                                </div>
+
+                                <!-- Company Name -->
+                                <div class="col-md-6 col-12">
+                                    <label for="company" class="form-label form-label-custom">Company Name</label>
+                                    <input type="text" name="company" id="company" class="form-control form-control-custom" placeholder="e.g. Stripe" required>
+                                </div>
+
+                                <!-- Location -->
+                                <div class="col-md-6 col-12">
+                                    <label for="location" class="form-label form-label-custom">Location</label>
+                                    <input type="text" name="location" id="location" class="form-control form-control-custom" placeholder="e.g. Remote / San Francisco, CA" required>
+                                </div>
+
+                                <!-- Salary Range -->
+                                <div class="col-md-6 col-12">
+                                    <label for="salary" class="form-label form-label-custom">Salary Range</label>
+                                    <input type="text" name="salary" id="salary" class="form-control form-control-custom" placeholder="e.g. $125k - $145k" required>
+                                </div>
+
+                                <!-- Job Type -->
+                                <div class="col-md-6 col-12">
+                                    <label for="job_type" class="form-label form-label-custom">Job Type</label>
+                                    <select name="job_type" id="job_type" class="form-select form-control-custom form-select-custom" required>
+                                        <option value="" disabled selected>Select Job Type</option>
+                                        <option value="Full Time">Full Time</option>
+                                        <option value="Part Time">Part Time</option>
+                                        <option value="Contract">Contract</option>
+                                        <option value="Internship">Internship</option>
+                                    </select>
+                                </div>
+
+                                <!-- Experience Level -->
+                                <div class="col-md-6 col-12">
+                                    <label for="experience" class="form-label form-label-custom">Experience Level</label>
+                                    <input type="text" name="experience" id="experience" class="form-control form-control-custom" placeholder="e.g. 2+ Years Exp / Senior" required>
+                                </div>
+
+                                <!-- Required Skills -->
+                                <div class="col-12">
+                                    <label for="skills" class="form-label form-label-custom">Required Skills (Comma separated)</label>
+                                    <input type="text" name="skills" id="skills" class="form-control form-control-custom" placeholder="e.g. HTML, CSS, JavaScript, React" required>
+                                    <small class="text-muted mt-1 d-block">Specify key technologies separated by commas. They will be displayed as badges.</small>
+                                </div>
+
+                                <!-- Job Description -->
+                                <div class="col-12">
+                                    <label for="description" class="form-label form-label-custom">Job Description</label>
+                                    <textarea name="description" id="description" rows="5" class="form-control form-control-custom" placeholder="Detail the role, responsibilities, and benefits..." required></textarea>
+                                </div>
+
+                                <!-- Form Actions -->
+                                <div class="col-12 mt-5">
+                                    <div class="d-flex justify-content-end gap-3">
+                                        <a href="{{ url_for('auth.dashboard') }}" class="btn btn-cancel">Cancel</a>
+                                        <button type="submit" class="btn btn-primary-custom d-flex align-items-center gap-2">
+                                            <i class="bi bi-send-fill"></i> Post Job Opening
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

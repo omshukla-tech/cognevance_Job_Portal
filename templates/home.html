@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal - Find Your Dream Job</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Premium Sticky Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top premium-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}" id="navbar-logo">
+                <div class="logo-cube">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+                <span>Job Portal</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}" id="nav-home">Home</a>
+                    </li>
+                    {% if session.get('user_id') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.dashboard') }}" id="nav-dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary-custom px-4" href="{{ url_for('auth.logout') }}" id="nav-logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}" id="nav-login">Login</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary-custom px-4" href="{{ url_for('auth.signup') }}" id="nav-signup">Sign Up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section d-flex align-items-center">
+        <!-- Interactive Layout Backdrops -->
+        <div class="workspace-grid"></div>
+        <div class="ambient-light light-blue-1"></div>
+        <div class="ambient-light light-blue-2"></div>
+        
+        <div class="container position-relative" style="z-index: 10;">
+            <div class="row align-items-center">
+                <!-- Left Content Area -->
+                <div class="col-lg-6 animate-fade-in">
+                    <div class="badge-pill-custom mb-3">
+                        <i class="bi bi-stars"></i> Next-Gen Career Pipeline
+                    </div>
+                    <h1 class="hero-title">
+                        Find Your <br><span class="gradient-text">Dream Job</span>
+                    </h1>
+                    <p class="hero-subtitle pe-lg-5">
+                        Discover thousands of open developer, design, and management positions at verified startups and high-growth companies. Connect directly with founders and hiring teams.
+                    </p>
+
+                    <!-- Advanced Integrated Search Widget -->
+                    <div class="search-widget-mockup d-none d-md-flex">
+                        <div class="search-col border-end pe-3">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Python, Flask, Developer...">
+                        </div>
+                        <div class="search-col pe-2">
+                            <i class="bi bi-geo-alt"></i>
+                            <input type="text" placeholder="Remote, San Francisco...">
+                        </div>
+                        <a href="{{ url_for('auth.signup') }}" class="btn btn-primary-custom py-2 px-4">Search</a>
+                    </div>
+                    
+                    <div class="d-flex flex-wrap gap-3">
+                        {% if session.get('user_id') %}
+                        <a href="{{ url_for('auth.dashboard') }}" class="btn btn-primary-custom btn-lg px-4 py-3" id="hero-dashboard">Go to Dashboard</a>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-custom btn-lg px-4 py-3" id="hero-logout">Logout</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.signup') }}" class="btn btn-primary-custom btn-lg px-4 py-3" id="hero-get-started">Get Started</a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-custom btn-lg px-4 py-3" id="hero-login">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Right Graphic Area (Advanced Dashboard Layout Mockup) -->
+                <div class="col-lg-6">
+                    <div class="position-relative">
+                        <!-- Floating Metrics Widget 1 -->
+                        <div class="mockup-metric metric-1">
+                            <div class="avatar-mock">JD</div>
+                            <div>
+                                <h6 class="mb-0 fw-bold" style="font-size: 0.8rem;">John Doe</h6>
+                                <small class="text-success fw-bold" style="font-size: 0.7rem;"><i class="bi bi-check-circle-fill"></i> Hired by Stripe</small>
+                            </div>
+                        </div>
+
+                        <!-- Floating Metrics Widget 2 -->
+                        <div class="mockup-metric metric-2">
+                            <div class="feature-icon-wrapper m-0" style="width: 32px; height: 32px; font-size: 0.95rem; border-radius: 8px; background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.65rem;">AVG. SALARY</small>
+                                <span class="fw-bold" style="font-size: 0.8rem; color: var(--dark-slate);">$125,000 / yr</span>
+                            </div>
+                        </div>
+
+                        <!-- Main Glassmorphic Dashboard Window -->
+                        <div class="workspace-mockup">
+                            <!-- Window Header -->
+                            <div class="mockup-header">
+                                <div class="mockup-dots">
+                                    <div class="mockup-dot mockup-dot-red"></div>
+                                    <div class="mockup-dot mockup-dot-yellow"></div>
+                                    <div class="mockup-dot mockup-dot-green"></div>
+                                </div>
+                                <span class="text-muted fw-bold" style="font-size: 0.75rem;"><i class="bi bi-lock-fill"></i> jobportal.io/dashboard</span>
+                            </div>
+
+                            <!-- Window Body -->
+                            <div class="mockup-body">
+                                <!-- Sidebar -->
+                                <div class="mockup-sidebar">
+                                    <div class="sidebar-item active">
+                                        <span>All Jobs</span>
+                                        <span class="sidebar-badge">24</span>
+                                    </div>
+                                    <div class="sidebar-item">
+                                        <span>Remote</span>
+                                        <span class="sidebar-badge-inactive">12</span>
+                                    </div>
+                                    <div class="sidebar-item">
+                                        <span>Engineering</span>
+                                        <span class="sidebar-badge-inactive">8</span>
+                                    </div>
+                                    <div class="sidebar-item">
+                                        <span>Design</span>
+                                        <span class="sidebar-badge-inactive">4</span>
+                                    </div>
+                                </div>
+
+                                <!-- Feed Content -->
+                                <div class="mockup-content">
+                                    <!-- Job Item 1 -->
+                                    <div class="mockup-card-small">
+                                        <span class="mockup-card-status">Active</span>
+                                        <div class="d-flex gap-2 align-items-center mb-2">
+                                            <div class="company-logo" style="width: 34px; height: 34px; border-radius: 8px; font-size: 1rem;">
+                                                <i class="bi bi-terminal-fill"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">Senior Flask Developer</h6>
+                                                <small class="text-muted" style="font-size: 0.7rem;">Stripe &bull; Remote</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                            <span class="fw-bold text-dark" style="font-size: 0.85rem;">$135K - $160K</span>
+                                            <div class="mockup-avatar-stack">
+                                                <div class="stack-avatar" style="background-color: #3b82f6;">A</div>
+                                                <div class="stack-avatar" style="background-color: #10b981;">B</div>
+                                                <div class="stack-avatar" style="background-color: #f59e0b;">+5</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Job Item 2 -->
+                                    <div class="mockup-card-small">
+                                        <div class="d-flex gap-2 align-items-center mb-2">
+                                            <div class="company-logo" style="width: 34px; height: 34px; border-radius: 8px; font-size: 1rem; background: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);">
+                                                <i class="bi bi-stripe"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold" style="font-size: 0.85rem;">Product Designer</h6>
+                                                <small class="text-muted" style="font-size: 0.7rem;">Stripe &bull; San Francisco</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                            <span class="fw-bold text-dark" style="font-size: 0.85rem;">$110K - $130K</span>
+                                            <span class="badge bg-success-subtle text-success border px-2 py-1 rounded" style="font-size: 0.65rem;">New</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Trusted Partners Section -->
+    <section class="logos-section text-center">
+        <div class="container">
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <!-- Set 1 -->
+                    <div class="logo-item"><i class="bi bi-stripe text-primary"></i> Stripe</div>
+                    <div class="logo-item"><i class="bi bi-google text-danger"></i> Google</div>
+                    <div class="logo-item"><i class="bi bi-microsoft text-info"></i> Microsoft</div>
+                    <div class="logo-item"><i class="bi bi-apple text-dark"></i> Apple</div>
+                    <div class="logo-item"><i class="bi bi-meta text-primary"></i> Meta</div>
+                    <div class="logo-item"><i class="bi bi-amazon text-warning"></i> Amazon</div>
+                    <div class="logo-item"><i class="bi bi-triangle-half text-dark"></i> Vercel</div>
+                    <div class="logo-item"><i class="bi bi-figma text-danger"></i> Figma</div>
+                    <div class="logo-item"><i class="bi bi-airbnb text-danger"></i> Airbnb</div>
+                    <div class="logo-item"><i class="bi bi-slack text-warning"></i> Slack</div>
+                    <div class="logo-item"><i class="bi bi-exclude text-info"></i> Linear</div>
+                    <div class="logo-item"><i class="bi bi-spotify text-success"></i> Spotify</div>
+                    <div class="logo-item"><i class="bi bi-dropbox text-primary"></i> Dropbox</div>
+                    
+                    <!-- Set 2 (Duplicated for seamless loop) -->
+                    <div class="logo-item"><i class="bi bi-stripe text-primary"></i> Stripe</div>
+                    <div class="logo-item"><i class="bi bi-google text-danger"></i> Google</div>
+                    <div class="logo-item"><i class="bi bi-microsoft text-info"></i> Microsoft</div>
+                    <div class="logo-item"><i class="bi bi-apple text-dark"></i> Apple</div>
+                    <div class="logo-item"><i class="bi bi-meta text-primary"></i> Meta</div>
+                    <div class="logo-item"><i class="bi bi-amazon text-warning"></i> Amazon</div>
+                    <div class="logo-item"><i class="bi bi-triangle-half text-dark"></i> Vercel</div>
+                    <div class="logo-item"><i class="bi bi-figma text-danger"></i> Figma</div>
+                    <div class="logo-item"><i class="bi bi-airbnb text-danger"></i> Airbnb</div>
+                    <div class="logo-item"><i class="bi bi-slack text-warning"></i> Slack</div>
+                    <div class="logo-item"><i class="bi bi-exclude text-info"></i> Linear</div>
+                    <div class="logo-item"><i class="bi bi-spotify text-success"></i> Spotify</div>
+                    <div class="logo-item"><i class="bi bi-dropbox text-primary"></i> Dropbox</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Cards Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-tag">Key Advantages</span>
+                <h2 class="fw-bold" style="font-size: 2.25rem;">Why Top Professionals Choose Us</h2>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Feature 1: Easy Job Search -->
+                <div class="col-md-4">
+                    <div class="feature-glass-card">
+                        <div>
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-search"></i>
+                            </div>
+                            <h4 class="mb-3 fw-bold">Easy Job Search</h4>
+                            <p class="text-muted mb-0">
+                                Target relevant positions matching your technical skills, preferred setup, and compensation goals with modern filters.
+                            </p>
+                        </div>
+                        <!-- Mini Search Pills UI Mockup -->
+                        <div class="feature-mini-ui">
+                            <div class="mini-search-ui">
+                                <span class="search-pill-mock search-pill-mock-active">Python</span>
+                                <span class="search-pill-mock search-pill-mock-active">Flask</span>
+                                <span class="search-pill-mock">Remote</span>
+                                <span class="search-pill-mock">Full-time</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 2: Verified Companies -->
+                <div class="col-md-4">
+                    <div class="feature-glass-card">
+                        <div>
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <h4 class="mb-3 fw-bold">Verified Companies</h4>
+                            <p class="text-muted mb-0">
+                                Skip the spam. Every organization and recruiting account undergoes verification by our quality control team.
+                            </p>
+                        </div>
+                        <!-- Mini Verification UI Mockup -->
+                        <div class="feature-mini-ui">
+                            <div class="mini-verify-ui">
+                                <div class="verify-badge-mock"><i class="bi bi-check-lg"></i></div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold" style="font-size: 0.8rem;">Stripe Inc.</h6>
+                                    <small class="text-muted" style="font-size: 0.65rem;">Vetted Tech Partner</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feature 3: Quick Hiring -->
+                <div class="col-md-4">
+                    <div class="feature-glass-card">
+                        <div>
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-lightning-fill"></i>
+                            </div>
+                            <h4 class="mb-3 fw-bold">Quick Hiring</h4>
+                            <p class="text-muted mb-0">
+                                Eliminate latency. Chat directly with technical hiring managers and startups within our responsive chat framework.
+                            </p>
+                        </div>
+                        <!-- Mini Chat UI Mockup -->
+                        <div class="feature-mini-ui">
+                            <div class="mini-chat-ui">
+                                <div class="chat-bubble-mock chat-bubble-in">Are you open for a quick HR screen?</div>
+                                <div class="chat-bubble-mock chat-bubble-out">Yes, absolutely!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stats Counters -->
+    <section class="stats-section">
+        <div class="container text-center">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="stat-num">12,000+</div>
+                    <h5 class="fw-bold">Active Listings</h5>
+                    <p class="text-muted mb-0">Real tech jobs from leading platforms.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-num">500+</div>
+                    <h5 class="fw-bold">Verified Recruiters</h5>
+                    <p class="text-muted mb-0">Validated company hiring teams.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-num">98%</div>
+                    <h5 class="fw-bold">Placement Rate</h5>
+                    <p class="text-muted mb-0">Successful candidate interviews.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Job Board Section -->
+    <section class="jobs-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-tag">Explore Jobs</span>
+                <h2 class="fw-bold" style="font-size: 2.25rem;">Latest Hot Opportunities</h2>
+            </div>
+            <div class="row g-4">
+                <!-- Job Card 1 -->
+                <div class="col-md-4">
+                    <div class="job-board-card">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="company-logo" style="background: linear-gradient(135deg, #1db954 0%, #191414 100%);">
+                                        <i class="bi bi-spotify"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Spotify</h6>
+                                        <small class="text-muted">Stockholm, SE</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-success-subtle text-success border border-success px-2.5 py-1 rounded-pill" style="font-size: 0.7rem;">Quick Hire</span>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">Backend Engineer (Flask)</h5>
+                            <p class="text-muted small mb-4">Lead development of microservices powering playlists and global content distribution nodes.</p>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                <span class="badge bg-light text-secondary border">Python</span>
+                                <span class="badge bg-light text-secondary border">Flask</span>
+                                <span class="badge bg-light text-secondary border">SQL</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                                <span class="fw-bold text-dark">$115K - $140K</span>
+                                <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-custom py-1.5 px-3" style="font-size: 0.8rem;">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Card 2 -->
+                <div class="col-md-4">
+                    <div class="job-board-card">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="company-logo" style="background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);">
+                                        <i class="bi bi-linkedin"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">LinkedIn</h6>
+                                        <small class="text-muted">Sunnyvale, CA</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-primary-subtle text-primary border border-primary px-2.5 py-1 rounded-pill" style="font-size: 0.7rem;">Remote</span>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">Senior Frontend Architect</h5>
+                            <p class="text-muted small mb-4">Oversee implementation of modern component systems across primary feed channels and user profiles.</p>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                <span class="badge bg-light text-secondary border">React</span>
+                                <span class="badge bg-light text-secondary border">CSS3</span>
+                                <span class="badge bg-light text-secondary border">UI/UX</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                                <span class="fw-bold text-dark">$140K - $180K</span>
+                                <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-custom py-1.5 px-3" style="font-size: 0.8rem;">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Card 3 -->
+                <div class="col-md-4">
+                    <div class="job-board-card">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="company-logo">
+                                        <i class="bi bi-terminal-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Stripe</h6>
+                                        <small class="text-muted">New York, NY</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-success-subtle text-success border border-success px-2.5 py-1 rounded-pill" style="font-size: 0.7rem;">Quick Hire</span>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">DevOps Infrastructure Engineer</h5>
+                            <p class="text-muted small mb-4">Maintain and build out scaling deployment pipelines and global high-availability API endpoints.</p>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                <span class="badge bg-light text-secondary border">AWS</span>
+                                <span class="badge bg-light text-secondary border">Python</span>
+                                <span class="badge bg-light text-secondary border">Docker</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                                <span class="fw-bold text-dark">$130K - $155K</span>
+                                <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-custom py-1.5 px-3" style="font-size: 0.8rem;">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="section-tag">Success Stories</span>
+                <h2 class="fw-bold" style="font-size: 2.25rem;">Candidate Feedback</h2>
+            </div>
+            <div class="row g-4">
+                <!-- Testimonial 1 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div>
+                            <div class="text-warning mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="text-muted small">"Using the quick hiring messenger I was able to talk directly with the startup founder. The entire process from submission to offer took just under three days!"</p>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center pt-3 border-top mt-3">
+                            <div class="avatar-mock" style="width: 42px; height: 42px;">LM</div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Lucas Miller</h6>
+                                <small class="text-muted">Python Developer at Spotify</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div>
+                            <div class="text-warning mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="text-muted small">"Applying through traditional boards always felt like a black hole. Here, the company verification means you only interface with authentic recruiters."</p>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center pt-3 border-top mt-3">
+                            <div class="avatar-mock" style="width: 42px; height: 42px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">SK</div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Sarah Koenig</h6>
+                                <small class="text-muted">Product Designer at Stripe</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div>
+                            <div class="text-warning mb-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <p class="text-muted small">"We scaled our engineering department by hiring two senior backend engineers within a week. The vetting profiles provided cut out hours of filtering."</p>
+                        </div>
+                        <div class="d-flex gap-3 align-items-center pt-3 border-top mt-3">
+                            <div class="avatar-mock" style="width: 42px; height: 42px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">DB</div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">David Baker</h6>
+                                <small class="text-muted">Engineering Manager at Figma</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="cta-banner-section">
+        <div class="container">
+            <div class="cta-banner text-center text-lg-start">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <h2>Grow Your Career Today</h2>
+                        <p class="mb-0 mt-2">Connect with verified corporations, participate in accelerated hiring streams, and find your next milestone position.</p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a href="{{ url_for('auth.signup') }}" class="btn btn-primary-custom btn-lg px-4 py-3 bg-white text-dark shadow-none border-0" style="color: var(--dark-slate) !important;">Get Started Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simple Premium Footer -->
+    <footer class="custom-footer">
+        <div class="container text-center text-md-start">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="navbar-brand text-white justify-content-center justify-content-md-start mb-2">
+                        <div class="logo-cube" style="box-shadow: none; transform: none;">
+                            <i class="bi bi-briefcase-fill text-white"></i>
+                        </div>
+                        <span class="text-white ms-1">Job Portal</span>
+                    </div>
+                    <p class="small text-muted mb-0">Connecting outstanding talent with world-class tech companies.</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="small text-muted mb-0">&copy; 2026 Job Portal Inc. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple scroll indicator interaction
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.premium-navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

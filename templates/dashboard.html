@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobPortal - Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Internal CSS -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --bg-color: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --card-border: #e2e8f0;
+            --card-radius: 16px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            padding-top: 70px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top Navbar */
+        .dashboard-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--card-border);
+            height: 70px;
+            z-index: 1050;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--text-dark) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .logo-box {
+            background: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .navbar-search {
+            background-color: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar-search input {
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            font-weight: 500;
+            width: 100%;
+            color: var(--text-dark);
+        }
+
+        .navbar-search input:focus {
+            outline: none;
+        }
+
+        .navbar-search i {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted) !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar-nav .nav-link:hover, 
+        .navbar-nav .nav-link.active {
+            color: var(--primary) !important;
+            background-color: var(--primary-light);
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--card-border);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            left: 0;
+            width: 250px;
+            background-color: #ffffff;
+            border-right: 1px solid var(--card-border);
+            padding: 1.75rem 1.25rem;
+            z-index: 1000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .sidebar-link i {
+            font-size: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-link:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background-color: var(--primary);
+            color: #ffffff !important;
+        }
+
+        .sidebar-link.active i {
+            color: #ffffff !important;
+        }
+
+        /* Main Area Layout */
+        .main-layout {
+            margin-left: 250px;
+            padding: 2rem 2.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        /* Section Heading */
+        .section-heading {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        /* Job Cards styling */
+        .job-card {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: var(--card-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.2);
+        }
+
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .company-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .job-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            row-gap: 0.3rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .job-meta-row span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .job-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 3.8rem;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .skill-badge {
+            background-color: var(--bg-color);
+            color: var(--text-muted);
+            border: 1px solid var(--card-border);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            transition: var(--transition-smooth);
+        }
+
+        .job-card:hover .skill-badge {
+            border-color: rgba(37, 99, 235, 0.15);
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--card-border);
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .posted-time {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-save {
+            background-color: #ffffff;
+            color: var(--text-muted);
+            border: 1.5px solid var(--card-border);
+            border-radius: 10px;
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-save:hover {
+            color: #ef4444;
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+
+        .btn-apply {
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            padding: 0.55rem 1.15rem;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-apply:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.03);
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: var(--card-radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-control-custom {
+            border: 1.5px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0.6rem 0.85rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background-color: var(--bg-color);
+            transition: var(--transition-smooth);
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: #ffffff;
+        }
+
+        /* Custom Tabs rendering */
+        .dashboard-tab-content {
+            display: none;
+        }
+
+        .dashboard-tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Status Badges */
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+        }
+        .status-pending { background-color: #fef3c7; color: #d97706; }
+        .status-reviewed { background-color: #e0f2fe; color: #0369a1; }
+        .status-interviewing { background-color: #f5f3ff; color: #6d28d9; }
+        .status-offered { background-color: #dcfce7; color: #15803d; }
+        .status-rejected { background-color: #fee2e2; color: #b91c1c; }
+
+        /* Profile Cards */
+        .profile-card {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: var(--card-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Form labels */
+        .form-label-custom {
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        /* Toast notification styling */
+        .custom-toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1100;
+            background: #0f172a;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .custom-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Pure CSS Sidebar Toggle */
+        #mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Mobile Adaptations */
+        @media (max-width: 991.98px) {
+            body {
+                padding-top: 130px;
+            }
+
+            .dashboard-navbar {
+                height: auto;
+                padding: 0.75rem 1rem;
+            }
+
+            .navbar-search {
+                max-width: 100%;
+                order: 3;
+                margin-top: 0.75rem;
+            }
+
+            .sidebar {
+                transform: translateX(-250px);
+                box-shadow: 0 0 30px rgba(0,0,0,0.1);
+                top: 130px;
+            }
+
+            #mobile-menu-toggle:checked ~ .sidebar {
+                transform: translateX(0);
+            }
+
+            .main-layout {
+                margin-left: 0;
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show border-0 rounded-4 m-3 position-fixed top-0 start-50 translate-middle-x" style="z-index: 9999; max-width: 500px;" role="alert">
+        <i class="bi bi-info-circle-fill me-2"></i> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Toast Notification element -->
+    <div id="api-toast" class="custom-toast">
+        <i class="bi bi-info-circle-fill text-primary" id="toast-icon"></i>
+        <span id="toast-msg">Notification Message</span>
+    </div>
+
+    <!-- Pure CSS Toggle Input -->
+    <input type="checkbox" id="mobile-menu-toggle">
+
+    <!-- Top Fixed Navbar -->
+    <nav class="navbar navbar-expand-lg dashboard-navbar fixed-top flex-wrap align-items-center justify-content-between">
+        <!-- Logo Left -->
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <div class="logo-box">
+                <i class="bi bi-briefcase-fill"></i>
+            </div>
+            <span>JobPortal</span>
+        </a>
+
+        <!-- Center Search Bar -->
+        <div class="navbar-search mx-lg-auto">
+            <i class="bi bi-search"></i>
+            <input type="text" id="navbar-global-search" placeholder="Search jobs, company, skills..." onkeyup="debouncedSearch()">
+        </div>
+
+        <!-- Mobile Toggle Button -->
+        <label for="mobile-menu-toggle" class="navbar-toggler border-0 p-0 d-lg-none" role="button">
+            <i class="bi bi-list fs-2 text-dark"></i>
+        </label>
+
+        <!-- Right Side Nav Elements -->
+        <div class="collapse navbar-collapse flex-grow-0 d-none d-lg-block" id="navbarRight">
+            <ul class="navbar-nav align-items-center gap-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li class="nav-item d-flex align-items-center gap-2">
+                    <span class="fw-semibold text-muted" style="font-size: 0.85rem;">Hello, {{ user.full_name }}</span>
+                    <img src="{% if user.profile_picture %}{% if user.profile_picture.startswith('http') %}{{ user.profile_picture }}{% else %}/api/uploads/{{ user.profile_picture }}{% endif %}{% else %}https://api.dicebear.com/7.x/initials/svg?seed={{ user.full_name }}{% endif %}" alt="User Profile" id="navbar-profile-avatar" class="profile-avatar">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar Layout Container -->
+    <div class="container-fluid px-0">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="javascript:void(0)" onclick="switchTab('jobs-tab')" id="menu-jobs-tab" class="sidebar-link active">
+                        <i class="bi bi-house-door"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {% if user.role == 'recruiter' %}
+                <li>
+                    <a href="{{ url_for('auth.post_job') }}" class="sidebar-link">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>Post a Job</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="javascript:void(0)" onclick="switchTab('apps-tab')" id="menu-apps-tab" class="sidebar-link">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>{% if user.role == 'recruiter' %}Applicants{% else %}My Applications{% endif %}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" onclick="switchTab('profile-tab')" id="menu-profile-tab" class="sidebar-link">
+                        <i class="bi bi-person"></i>
+                        <span>Profile Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('auth.logout') }}" class="sidebar-link text-danger">
+                        <i class="bi bi-box-arrow-right text-danger"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Layout -->
+        <main class="main-layout">
+            
+            <!-- Tab 1: Jobs listings / Recruiter Jobs Management -->
+            <div id="jobs-tab" class="dashboard-tab-content active">
+                
+                <!-- Shared Job Discovery Filter Area -->
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="filter-panel">
+                            <div class="row g-3">
+                                <div class="col-md-3 col-12">
+                                    <label class="form-label form-label-custom">Search keyword</label>
+                                    <input type="text" id="filter-keyword" class="form-control form-control-custom" placeholder="Python, React, Stripe..." onkeyup="debouncedSearch()">
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <label class="form-label form-label-custom">Location</label>
+                                    <input type="text" id="filter-location" class="form-control form-control-custom" placeholder="Remote, SF..." onkeyup="debouncedSearch()">
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <label class="form-label form-label-custom">Experience</label>
+                                    <input type="text" id="filter-experience" class="form-control form-control-custom" placeholder="Junior, 3+ years..." onkeyup="debouncedSearch()">
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <label class="form-label form-label-custom">Salary</label>
+                                    <input type="text" id="filter-salary" class="form-control form-control-custom" placeholder="e.g. $125k..." onkeyup="debouncedSearch()">
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    <label class="form-label form-label-custom">Job Type</label>
+                                    <select id="filter-type" class="form-select form-control-custom" onchange="loadJobs()">
+                                        <option value="">All Types</option>
+                                        <option value="Full Time">Full Time</option>
+                                        <option value="Part Time">Part Time</option>
+                                        <option value="Contract">Contract</option>
+                                        <option value="Internship">Internship</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 col-12 d-flex align-items-end">
+                                    <button class="btn btn-primary w-100 py-2" onclick="loadJobs()"><i class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <!-- Heading and controls -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                        {% if user.role == 'recruiter' %}
+                        <div class="btn-group" role="group" aria-label="Job View Toggle" style="border: 1px solid var(--card-border); border-radius: 12px; padding: 4px; background: white;">
+                            <button type="button" class="btn btn-sm px-3 py-2 rounded-3 text-dark fw-bold border-0" id="btn-browse-all" style="background: var(--primary-light); color: var(--primary) !important;" onclick="setRecruiterView('all')">
+                                <i class="bi bi-globe me-1"></i> Browse All Jobs
+                            </button>
+                            <button type="button" class="btn btn-sm px-3 py-2 rounded-3 text-muted fw-bold border-0" id="btn-my-postings" onclick="setRecruiterView('my')">
+                                <i class="bi bi-briefcase me-1"></i> My Posted Jobs
+                            </button>
+                        </div>
+                        <a href="{{ url_for('auth.post_job') }}" class="btn btn-primary-custom px-4 py-2 d-flex align-items-center gap-2">
+                            <i class="bi bi-plus-circle-fill"></i> Post a Job
+                        </a>
+                        {% else %}
+                        <h4 class="section-heading mb-0">Recommended Jobs for You</h4>
+                        {% endif %}
+                    </div>
+
+                    <!-- Unified Job Listing Container -->
+                    <div class="row g-4" id="jobs-listing-container">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status"></div>
+                            <p class="mt-2 text-muted">Searching the best fits for you...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab 2: Applications Tracking / Applicants Management -->
+            <div id="apps-tab" class="dashboard-tab-content">
+                <h4 class="section-heading mb-4">
+                    {% if user.role == 'recruiter' %}
+                    Manage Candidate Applications
+                    {% else %}
+                    My Submitted Applications
+                    {% endif %}
+                </h4>
+
+                <div class="profile-card">
+                    <div class="table-responsive">
+                        <table class="table align-middle" style="min-width: 600px;">
+                            <thead class="table-light">
+                                <tr>
+                                    {% if user.role == 'recruiter' %}
+                                    <th>Candidate</th>
+                                    <th>Job Title</th>
+                                    <th>Applied On</th>
+                                    <th>Status</th>
+                                    <th>Resume & Cover Letter</th>
+                                    <th class="text-end" style="width: 220px;">Actions</th>
+                                    {% else %}
+                                    <th>Company</th>
+                                    <th>Job Title</th>
+                                    <th>Applied On</th>
+                                    <th>Status</th>
+                                    <th>Uploaded Resume</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody id="applications-table-body">
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <div class="spinner-border text-primary spinner-border-sm" role="status"></div> Loading applications records...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Profile Management -->
+            <div id="profile-tab" class="dashboard-tab-content">
+                <h4 class="section-heading mb-4">Profile Management</h4>
+
+                <div class="row g-4">
+                    <div class="col-lg-4 col-12">
+                        <div class="profile-card text-center mb-4">
+                            <img src="{% if user.profile_picture %}{% if user.profile_picture.startswith('http') %}{{ user.profile_picture }}{% else %}/api/uploads/{{ user.profile_picture }}{% endif %}{% else %}https://api.dicebear.com/7.x/initials/svg?seed={{ user.full_name }}&size=120{% endif %}" alt="Avatar" id="profile-avatar-img" class="rounded-circle mb-3 border" style="width: 100px; height: 100px; object-fit: cover;">
+                            <h5 class="fw-bold mb-1">{{ user.full_name }}</h5>
+                            <span class="badge text-uppercase mb-3" style="background-color: var(--primary-light); color: var(--primary);">{{ user.role }}</span>
+                            
+                            <!-- Avatar Upload Form -->
+                            <form id="avatar-upload-form" class="mt-2 mb-3" onsubmit="uploadProfileAvatar(event)">
+                                <div class="mb-2">
+                                    <input type="file" id="avatar-file-input" class="form-control form-control-sm" accept="image/*" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm w-100" id="avatar-upload-btn">Upload Image</button>
+                            </form>
+                            <p class="text-muted small mb-0"><i class="bi bi-envelope"></i> {{ user.email }}</p>
+                        </div>
+
+                        <!-- Resume Upload (Seeker Only) -->
+                        {% if user.role == 'seeker' %}
+                        <div class="profile-card text-start mt-4">
+                            <h6 class="fw-bold mb-3 border-bottom pb-2">Default Resume Metadata</h6>
+                            <form id="profile-resume-form" onsubmit="uploadProfileResume(event)">
+                                <div class="mb-3">
+                                    <label class="form-label form-label-custom">Upload Resume (PDF/DOC/DOCX)</label>
+                                    <input type="file" id="profile-resume-file" class="form-control form-control-custom" accept=".pdf,.doc,.docx" required>
+                                </div>
+                                <div id="profile-resume-status" class="mb-3 text-start">
+                                    {% if user.resume_filename %}
+                                    <span class="text-success small fw-bold"><i class="bi bi-file-check-fill"></i> Current default: {{ user.resume_filename }}</span>
+                                    {% else %}
+                                    <span class="text-warning small"><i class="bi bi-exclamation-circle-fill"></i> No profile resume uploaded.</span>
+                                    {% endif %}
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary btn-sm w-100" id="resume-upload-btn">Upload Resume</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-lg-8 col-12">
+                        <div class="profile-card">
+                            <h5 class="fw-bold mb-4 border-bottom pb-2">Edit Professional Information</h5>
+                            
+                            <form id="profile-update-form" onsubmit="saveProfile(event)">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="profile-bio" class="form-label form-label-custom">{% if user.role == 'recruiter' %}About Company{% else %}Professional Summary / Bio{% endif %}</label>
+                                        <textarea id="profile-bio" rows="3" class="form-control form-control-custom" placeholder="Briefly describe your profile or organization...">{{ user.bio or '' }}</textarea>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="profile-skills" class="form-label form-label-custom">{% if user.role == 'recruiter' %}Industry / Sector{% else %}Core Skills (Comma separated){% endif %}</label>
+                                        <input type="text" id="profile-skills" class="form-control form-control-custom" value="{{ user.skills or '' }}" placeholder="e.g. Python, Javascript, AI, Project Management">
+                                    </div>
+
+                                    {% if user.role == 'seeker' %}
+                                    <div class="col-12">
+                                        <label for="profile-experience" class="form-label form-label-custom">Work Experience</label>
+                                        <textarea id="profile-experience" rows="3" class="form-control form-control-custom" placeholder="Detail your previous job roles, duration, and achievements...">{{ user.experience or '' }}</textarea>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="profile-education" class="form-label form-label-custom">Education</label>
+                                        <textarea id="profile-education" rows="2" class="form-control form-control-custom" placeholder="Degrees, universities, and certifications...">{{ user.education or '' }}</textarea>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="col-12 mt-4 text-end">
+                                        <button type="submit" class="btn btn-primary-custom px-4 py-2" id="profile-save-btn">
+                                            <i class="bi bi-save-fill me-1"></i> Save Changes
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Change Password Card -->
+                        <div class="profile-card mt-4">
+                            <h5 class="fw-bold mb-4 border-bottom pb-2">Change Password</h5>
+                            
+                            <form id="profile-password-form" onsubmit="changePassword(event)">
+                                <div class="mb-3">
+                                    <label for="current-password" class="form-label form-label-custom">Current Password</label>
+                                    <input type="password" id="current-password" class="form-control form-control-custom" placeholder="••••••••" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new-password" class="form-label form-label-custom">New Password</label>
+                                    <input type="password" id="new-password" class="form-control form-control-custom" placeholder="••••••••" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm-new-password" class="form-label form-label-custom">Confirm New Password</label>
+                                    <input type="password" id="confirm-new-password" class="form-control form-control-custom" placeholder="••••••••" required>
+                                </div>
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-danger btn-sm px-4" id="change-password-btn">Change Password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Application Submission Modal (Seeker Only) -->
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 16px;">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="applyModalLabel">Apply to <span id="modal-job-title" class="text-primary">Job</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="job-apply-form" onsubmit="submitApplication(event)">
+                    <input type="hidden" id="modal-job-id">
+                    <div class="modal-body py-4">
+                        <!-- File Upload -->
+                        <div class="mb-3">
+                            <label for="modal-resume-file" class="form-label form-label-custom">Upload Resume File (PDF/DOC/DOCX)</label>
+                            <input type="file" id="modal-resume-file" class="form-control form-control-custom" accept=".pdf,.doc,.docx">
+                            <div class="form-text">Choose a file to upload from your local drive.</div>
+                        </div>
+
+                        <div class="mb-3 text-center text-muted small fw-bold py-1 border-bottom border-top">
+                            - OR PROVIDE A URL LINK -
+                        </div>
+
+                        <!-- Resume link URL -->
+                        <div class="mb-3">
+                            <label for="modal-resume" class="form-label form-label-custom">Resume / Portfolio URL Link</label>
+                            <input type="url" id="modal-resume" class="form-control form-control-custom" placeholder="https://drive.google.com/your-resume-link">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modal-cover" class="form-label form-label-custom">Cover Letter</label>
+                            <textarea id="modal-cover" rows="4" class="form-control form-control-custom" placeholder="Explain why you are a good fit for this role..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pt-0">
+                        <button type="button" class="btn btn-cancel py-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-custom py-2" id="modal-submit-btn">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Job Modal (Recruiter Only) -->
+    <div class="modal fade" id="editJobModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0" style="border-radius: 16px;">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="editJobModalLabel">Edit Job Posting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="job-edit-form" onsubmit="submitEditJob(event)">
+                    <input type="hidden" id="edit-job-id">
+                    <div class="modal-body py-4">
+                        <div class="row g-3">
+                            <div class="col-md-6 col-12">
+                                <label for="edit-title" class="form-label form-label-custom">Job Title</label>
+                                <input type="text" id="edit-title" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="edit-company" class="form-label form-label-custom">Company Name</label>
+                                <input type="text" id="edit-company" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="edit-location" class="form-label form-label-custom">Location</label>
+                                <input type="text" id="edit-location" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="edit-salary" class="form-label form-label-custom">Salary Range</label>
+                                <input type="text" id="edit-salary" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="edit-job-type" class="form-label form-label-custom">Job Type</label>
+                                <select id="edit-job-type" class="form-select form-control-custom" required>
+                                    <option value="Full Time">Full Time</option>
+                                    <option value="Part Time">Part Time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="edit-experience" class="form-label form-label-custom">Experience Level</label>
+                                <input type="text" id="edit-experience" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="edit-skills" class="form-label form-label-custom">Required Skills (Comma separated)</label>
+                                <input type="text" id="edit-skills" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="edit-description" class="form-label form-label-custom">Job Description</label>
+                                <textarea id="edit-description" rows="5" class="form-control form-control-custom" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pt-0">
+                        <button type="button" class="btn btn-cancel py-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-custom py-2" id="edit-job-submit-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AJAX Dashboard Operations -->
+    <script>
+        const userRole = "{{ user.role }}";
+        let applyModal = null;
+        let editJobModal = null;
+        let searchTimeout = null;
+        let recruiterView = "all"; // Toggle: 'all' or 'my'
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (userRole === 'seeker') {
+                applyModal = new bootstrap.Modal(document.getElementById('applyModal'));
+            } else if (userRole === 'recruiter') {
+                editJobModal = new bootstrap.Modal(document.getElementById('editJobModal'));
+            }
+            loadJobs();
+            loadApplications();
+
+            // Load default tab from URL query params
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            if (tabParam && ['jobs-tab', 'apps-tab', 'profile-tab'].includes(tabParam)) {
+                switchTab(tabParam);
+            }
+        });
+
+        // XSS Escape Helper
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('api-toast');
+            const icon = document.getElementById('toast-icon');
+            const msgSpan = document.getElementById('toast-msg');
+            
+            msgSpan.innerText = message;
+            if (type === 'success') {
+                toast.style.background = '#15803d';
+                icon.className = 'bi bi-check-circle-fill text-white';
+            } else if (type === 'danger') {
+                toast.style.background = '#b91c1c';
+                icon.className = 'bi bi-exclamation-triangle-fill text-white';
+            } else {
+                toast.style.background = '#0f172a';
+                icon.className = 'bi bi-info-circle-fill text-primary';
+            }
+            
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Tab Switching Engine
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.dashboard-tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show active tab
+            document.getElementById(tabId).classList.add('active');
+
+            // Deactivate all sidebar items
+            document.querySelectorAll('.sidebar-link').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Activate current sidebar item
+            document.getElementById('menu-' + tabId).classList.add('active');
+
+            // Auto-close mobile menu toggle if active
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            if (menuToggle) {
+                menuToggle.checked = false;
+            }
+        }
+
+        // Debounce search input
+        function debouncedSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const globalVal = document.getElementById('navbar-global-search').value;
+                const keywordEl = document.getElementById('filter-keyword');
+                if (keywordEl && keywordEl.value !== globalVal) {
+                    keywordEl.value = globalVal;
+                }
+                loadJobs();
+            }, 350);
+        }
+
+        // Recruiter View Toggle
+        function setRecruiterView(view) {
+            recruiterView = view;
+            const btnAll = document.getElementById('btn-browse-all');
+            const btnMy = document.getElementById('btn-my-postings');
+            
+            if (view === 'all') {
+                btnAll.style.background = 'var(--primary-light)';
+                btnAll.style.color = 'var(--primary)';
+                btnAll.classList.remove('text-muted');
+                btnMy.style.background = 'transparent';
+                btnMy.style.color = 'var(--text-muted)';
+                btnMy.classList.add('text-muted');
+            } else {
+                btnMy.style.background = 'var(--primary-light)';
+                btnMy.style.color = 'var(--primary)';
+                btnMy.classList.remove('text-muted');
+                btnAll.style.background = 'transparent';
+                btnAll.style.color = 'var(--text-muted)';
+                btnAll.classList.add('text-muted');
+            }
+            loadJobs();
+        }
+
+        // API Call: Fetch all jobs with filter
+        function loadJobs() {
+            const keyword = document.getElementById('filter-keyword').value;
+            const location = document.getElementById('filter-location').value;
+            const jobType = document.getElementById('filter-type').value;
+            const experience = document.getElementById('filter-experience').value;
+            const salary = document.getElementById('filter-salary').value;
+
+            const container = document.getElementById('jobs-listing-container');
+            container.innerHTML = `
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 text-muted">Searching for matches...</p>
+                </div>
+            `;
+
+            let url = `/api/jobs?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}&job_type=${encodeURIComponent(jobType)}&experience=${encodeURIComponent(experience)}&salary=${encodeURIComponent(salary)}`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(jobs => {
+                    let displayJobs = jobs;
+                    if (userRole === 'recruiter' && recruiterView === 'my') {
+                        displayJobs = jobs.filter(j => j.recruiter_id === {{ user.id }});
+                    }
+
+                    if (displayJobs.length === 0) {
+                        container.innerHTML = `
+                            <div class="col-12 text-center py-5">
+                                <i class="bi bi-slash-circle text-muted" style="font-size: 3rem;"></i>
+                                <h5 class="fw-bold mt-3">No jobs found matching your criteria</h5>
+                                <p class="text-muted">Try clearing your filters or testing new keywords.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    container.innerHTML = '';
+                    displayJobs.forEach(job => {
+                        const skillsBadges = job.skills.split(',').map(s => {
+                            if (s.trim()) return `<span class="skill-badge">${escapeHTML(s.trim())}</span>`;
+                            return '';
+                        }).join('');
+
+                        let actionButton = '';
+                        let ownershipBadge = '';
+
+                        if (job.recruiter_id === {{ user.id }}) {
+                            ownershipBadge = `<span class="badge bg-primary text-white mb-2" style="font-size:0.72rem; border-radius:6px; padding: 0.35rem 0.65rem;">My Posting</span>`;
+                            actionButton = `
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary py-2 px-3" onclick="openEditJobModal(${job.id})">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger py-2 px-3" onclick="deleteJob(${job.id})">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </div>
+                            `;
+                        } else {
+                            ownershipBadge = `<span class="badge bg-secondary text-white mb-2" style="font-size:0.72rem; border-radius:6px; padding: 0.35rem 0.65rem;">Other Company</span>`;
+                            if (userRole === 'recruiter') {
+                                actionButton = `
+                                    <button class="btn btn-sm btn-outline-secondary px-3 py-2" disabled style="cursor: not-allowed;">
+                                        <i class="bi bi-briefcase"></i> View Only
+                                    </button>
+                                `;
+                            } else {
+                                actionButton = `
+                                    <button class="btn btn-apply px-3 py-2" onclick="openApplyModal(${job.id}, '${escapeHTML(job.title)}', '${escapeHTML(job.company)}')">
+                                        Apply Now
+                                    </button>
+                                `;
+                            }
+                        }
+
+                        container.innerHTML += `
+                            <div class="col-xl-4 col-md-6 col-12">
+                                <article class="job-card">
+                                    <div>
+                                        <div class="d-flex align-items-center gap-3 mb-2">
+                                            <div class="company-logo text-white fw-bold" style="background: var(--gradient-primary)">
+                                                ${escapeHTML(job.company.substring(0, 2).toUpperCase())}
+                                            </div>
+                                            <div>
+                                                <h5 class="job-title mb-0">${escapeHTML(job.title)}</h5>
+                                                <span class="company-name">${escapeHTML(job.company)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">${ownershipBadge}</div>
+                                        <div class="job-meta-row">
+                                            <span><i class="bi bi-geo-alt"></i> ${escapeHTML(job.location)}</span>
+                                            <span><i class="bi bi-currency-dollar"></i> ${escapeHTML(job.salary)}</span>
+                                            <span><i class="bi bi-clock"></i> ${escapeHTML(job.job_type)}</span>
+                                            <span><i class="bi bi-briefcase"></i> ${escapeHTML(job.experience)}</span>
+                                        </div>
+                                        <p class="job-description">${escapeHTML(job.description)}</p>
+                                    </div>
+                                    <div>
+                                        <div class="skills-container">${skillsBadges}</div>
+                                        <div class="card-footer-row">
+                                            <span class="posted-time"><i class="bi bi-calendar3"></i> ${escapeHTML(job.date_posted) || 'Recently'}</span>
+                                            ${actionButton}
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    showToast('Failed to load jobs list.', 'danger');
+                    container.innerHTML = `<div class="col-12 text-center py-5 text-danger"><i class="bi bi-exclamation-triangle"></i> Error loading job listings.</div>`;
+                });
+        }
+
+        // Open Modal to Apply
+        function openApplyModal(jobId, jobTitle, companyName) {
+            document.getElementById('modal-job-id').value = jobId;
+            document.getElementById('modal-job-title').innerText = `${jobTitle} at ${companyName}`;
+            document.getElementById('modal-resume').value = '';
+            document.getElementById('modal-resume-file').value = '';
+            document.getElementById('modal-cover').value = '';
+            applyModal.show();
+        }
+
+        // API Call: Submit Application
+        function submitApplication(event) {
+            event.preventDefault();
+            const jobId = document.getElementById('modal-job-id').value;
+            const resumeLink = document.getElementById('modal-resume').value;
+            const coverLetter = document.getElementById('modal-cover').value;
+            const submitBtn = document.getElementById('modal-submit-btn');
+            const fileInput = document.getElementById('modal-resume-file');
+
+            const formData = new FormData();
+            formData.append('cover_letter', coverLetter);
+            formData.append('resume_link', resumeLink);
+            if (fileInput.files.length > 0) {
+                formData.append('resume_file', fileInput.files[0]);
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Submitting...';
+
+            fetch(`/api/jobs/${jobId}/apply`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Submit Application';
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Application submitted successfully!', 'success');
+                    applyModal.hide();
+                    loadApplications();
+                }
+            })
+            .catch(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Submit Application';
+                showToast('Failed to connect to the server.', 'danger');
+            });
+        }
+
+        // API Call: Load Application Records
+        function loadApplications() {
+            const tbody = document.getElementById('applications-table-body');
+            
+            fetch('/api/applications')
+                .then(res => res.json())
+                .then(apps => {
+                    if (apps.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="${userRole === 'recruiter' ? '6' : '5'}" class="text-center py-5 text-muted">
+                                    <i class="bi bi-info-circle fs-3 d-block mb-2"></i> No application records found.
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    tbody.innerHTML = '';
+                    apps.forEach(app => {
+                        const statusClass = 'status-' + app.status.toLowerCase();
+                        
+                        let resumeAction = '';
+                        if (app.resume_filename) {
+                            resumeAction = `<a href="/api/applications/${app.id}/download" class="btn btn-sm btn-outline-success rounded p-1 small" style="font-size:0.75rem;"><i class="bi bi-download"></i> Download (${escapeHTML(app.resume_filename)})</a>`;
+                        } else {
+                            resumeAction = `<a href="${escapeHTML(app.resume_link)}" target="_blank" class="btn btn-sm btn-outline-primary rounded p-1 small" style="font-size:0.75rem;"><i class="bi bi-box-arrow-up-right"></i> Link</a>`;
+                        }
+
+                        if (userRole === 'recruiter') {
+                            let actionButtons = '';
+                            if (app.status === 'Pending' || app.status === 'Reviewed' || app.status === 'Interviewing') {
+                                actionButtons = `
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <button class="btn btn-sm btn-success px-3 py-1.5 rounded-3 d-flex align-items-center gap-1" onclick="updateAppStatus(${app.id}, 'Offered')">
+                                            <i class="bi bi-check-lg"></i> Accept
+                                        </button>
+                                        <button class="btn btn-sm btn-danger px-3 py-1.5 rounded-3 d-flex align-items-center gap-1" onclick="updateAppStatus(${app.id}, 'Rejected')">
+                                            <i class="bi bi-x-lg"></i> Cancel
+                                        </button>
+                                    </div>
+                                `;
+                            } else if (app.status === 'Offered') {
+                                actionButtons = `<span class="badge bg-success py-2 px-3 rounded-pill text-white"><i class="bi bi-check-circle-fill"></i> Accepted (Offered)</span>`;
+                            } else if (app.status === 'Rejected') {
+                                actionButtons = `<span class="badge bg-danger py-2 px-3 rounded-pill text-white"><i class="bi bi-x-circle-fill"></i> Cancelled (Rejected)</span>`;
+                            }
+
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-dark">${escapeHTML(app.seeker_name)}</div>
+                                        <small class="text-muted">${escapeHTML(app.seeker_email)}</small>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold">${escapeHTML(app.job_title)}</div>
+                                        <small class="text-muted">${escapeHTML(app.company)}</small>
+                                    </td>
+                                    <td>${escapeHTML(app.date_applied) || 'Recently'}</td>
+                                    <td>
+                                        <span class="status-badge ${statusClass}">${escapeHTML(app.status)}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column gap-1">
+                                            ${resumeAction}
+                                            <small class="text-muted text-truncate" style="max-width:150px;" title="${escapeHTML(app.cover_letter)}">Cover: ${escapeHTML(app.cover_letter) || 'N/A'}</small>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        ${actionButtons}
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td><div class="fw-bold text-primary">${escapeHTML(app.company)}</div></td>
+                                    <td><div class="fw-bold">${escapeHTML(app.job_title)}</div></td>
+                                    <td>${escapeHTML(app.date_applied) || 'Recently'}</td>
+                                    <td>
+                                        <span class="status-badge ${statusClass}">${escapeHTML(app.status)}</span>
+                                    </td>
+                                    <td>
+                                        ${resumeAction}
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                    });
+                })
+                .catch(() => {
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-danger">Failed to fetch application records.</td></tr>`;
+                });
+        }
+
+        // API Call: Recruiter Updates Application Status
+        function updateAppStatus(appId, newStatus) {
+            fetch(`/api/applications/${appId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Application status updated!', 'success');
+                    loadApplications();
+                }
+            })
+            .catch(() => {
+                showToast('Failed to contact database API.', 'danger');
+            });
+        }
+
+        // API Call: Save profile data
+        function saveProfile(event) {
+            event.preventDefault();
+            const bio = document.getElementById('profile-bio').value;
+            const skills = document.getElementById('profile-skills').value;
+            
+            const payload = { bio: bio, skills: skills };
+            
+            const expEl = document.getElementById('profile-experience');
+            const eduEl = document.getElementById('profile-education');
+            if (expEl) payload.experience = expEl.value;
+            if (eduEl) payload.education = eduEl.value;
+
+            const saveBtn = document.getElementById('profile-save-btn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Saving...';
+
+            fetch('/api/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="bi bi-save-fill me-1"></i> Save Changes';
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Profile details updated successfully!', 'success');
+                }
+            })
+            .catch(() => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="bi bi-save-fill me-1"></i> Save Changes';
+                showToast('Connection to servers failed.', 'danger');
+            });
+        }
+
+        // API Call: Upload profile picture
+        function uploadProfileAvatar(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('avatar-file-input');
+            if (fileInput.files.length === 0) return;
+
+            const formData = new FormData();
+            formData.append('profile_pic', fileInput.files[0]);
+
+            const btn = document.getElementById('avatar-upload-btn');
+            btn.disabled = true;
+            btn.innerText = 'Uploading...';
+
+            fetch('/api/profile/upload-picture', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerText = 'Upload Image';
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Profile picture updated successfully!', 'success');
+                    // Refresh avatar displays on the page
+                    const imgUrl = `/api/uploads/${data.filename}`;
+                    document.getElementById('profile-avatar-img').src = imgUrl;
+                    document.getElementById('navbar-profile-avatar').src = imgUrl;
+                    fileInput.value = '';
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerText = 'Upload Image';
+                showToast('Avatar upload failed.', 'danger');
+            });
+        }
+
+        // API Call: Upload default profile resume (Seeker Only)
+        function uploadProfileResume(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('profile-resume-file');
+            if (fileInput.files.length === 0) return;
+
+            const formData = new FormData();
+            formData.append('resume_file', fileInput.files[0]);
+
+            const btn = document.getElementById('resume-upload-btn');
+            btn.disabled = true;
+            btn.innerText = 'Uploading...';
+
+            fetch('/api/profile/upload-resume', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerText = 'Upload Resume';
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Default resume uploaded!', 'success');
+                    document.getElementById('profile-resume-status').innerHTML = `
+                        <span class="text-success small fw-bold"><i class="bi bi-file-check-fill"></i> Current default: ${escapeHTML(data.filename)}</span>
+                    `;
+                    fileInput.value = '';
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerText = 'Upload Resume';
+                showToast('Resume upload failed.', 'danger');
+            });
+        }
+
+        // API Call: Change Account Password
+        function changePassword(event) {
+            event.preventDefault();
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-new-password').value;
+            const btn = document.getElementById('change-password-btn');
+
+            if (newPassword !== confirmPassword) {
+                showToast('New passwords do not match.', 'danger');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = 'Updating...';
+
+            fetch('/api/profile/change-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    current_password: currentPassword,
+                    new_password: newPassword,
+                    confirm_password: confirmPassword
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerText = 'Change Password';
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Password updated successfully!', 'success');
+                    document.getElementById('profile-password-form').reset();
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerText = 'Change Password';
+                showToast('Failed to change password.', 'danger');
+            });
+        }
+
+        // API Call: Recruiter opens Edit Job modal and loads data
+        function openEditJobModal(jobId) {
+            fetch(`/api/jobs/${jobId}`)
+                .then(res => res.json())
+                .then(job => {
+                    document.getElementById('edit-job-id').value = job.id;
+                    document.getElementById('edit-title').value = job.title;
+                    document.getElementById('edit-company').value = job.company;
+                    document.getElementById('edit-location').value = job.location;
+                    document.getElementById('edit-salary').value = job.salary;
+                    document.getElementById('edit-job-type').value = job.job_type;
+                    document.getElementById('edit-experience').value = job.experience;
+                    document.getElementById('edit-skills').value = job.skills;
+                    document.getElementById('edit-description').value = job.description;
+                    editJobModal.show();
+                })
+                .catch(() => {
+                    showToast('Failed to load job details.', 'danger');
+                });
+        }
+
+        // API Call: Recruiter saves edited Job
+        function submitEditJob(event) {
+            event.preventDefault();
+            const jobId = document.getElementById('edit-job-id').value;
+            const title = document.getElementById('edit-title').value;
+            const company = document.getElementById('edit-company').value;
+            const location = document.getElementById('edit-location').value;
+            const salary = document.getElementById('edit-salary').value;
+            const jobType = document.getElementById('edit-job-type').value;
+            const experience = document.getElementById('edit-experience').value;
+            const skills = document.getElementById('edit-skills').value;
+            const description = document.getElementById('edit-description').value;
+            const submitBtn = document.getElementById('edit-job-submit-btn');
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Saving...';
+
+            fetch(`/api/jobs/${jobId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: title,
+                    company: company,
+                    location: location,
+                    salary: salary,
+                    job_type: jobType,
+                    experience: experience,
+                    skills: skills,
+                    description: description
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Save Changes';
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Job posting updated successfully!', 'success');
+                    editJobModal.hide();
+                    loadJobs();
+                }
+            })
+            .catch(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Save Changes';
+                showToast('Failed to update job details.', 'danger');
+            });
+        }
+
+        // API Call: Recruiter deletes a job posting
+        function deleteJob(jobId) {
+            if (!confirm("Are you sure you want to permanently delete this job posting? All applicants associated with it will also be deleted.")) {
+                return;
+            }
+
+            fetch(`/api/jobs/${jobId}`, {
+                method: 'DELETE'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    showToast(data.error, 'danger');
+                } else {
+                    showToast('Job posting deleted successfully!', 'success');
+                    loadJobs();
+                    loadApplications();
+                }
+            })
+            .catch(() => {
+                showToast('Failed to delete job posting.', 'danger');
+            });
+        }
+    </script>
+</body>
+</html>
